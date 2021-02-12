@@ -1,7 +1,11 @@
 <template>
   <v-card flat>
     <perfect-scrollbar>
-      <v-card-text class="pa-0" :style="{ minHeight: phoneLayout ? '' : '75vh', maxHeight: '75vh'}">
+      <v-card-text 
+        class="pa-0" 
+        :style="{ minHeight: phoneLayout ? '' : '75vh', maxHeight: '75vh'}" 
+        style="width:max-content"
+      >
         <v-treeview
           v-model="selected"
           :items="fileTree"
@@ -27,19 +31,18 @@
               autofocus
             />
           </template>
-          <template v-if="!$vuetify.breakpoint.smAndDown" #append="{ item }">
+          <template #append="{ item }">
             <span v-if="!item.icon">{{ item.children.length }} Files</span>
             <div v-else>
               <span>[{{ item.size }}]</span>
-              <span class="ml-4">{{ item.progress }}%</span>
-              <span class="ml-4">[ {{ item.priority | priority }} ]</span>
+              <span>{{ item.progress }}%</span>
+              <span>[ {{ item.priority | priority }} ]</span>
               <v-menu
                 open-on-hover
                 top
               >
                 <template #activator="{ on }">
                   <v-btn
-                    class="mb-2 ml-4"
                     x-small
                     fab
                     v-on="on"
@@ -56,7 +59,7 @@
                     @click="setFilePrio(item.id, prio.value)"
                   >
                     <v-icon>{{ prio.icon }}</v-icon>
-                    <v-list-item-title class="ml-2 black--text" style="font-size: 12px">
+                    <v-list-item-title class="black--text" style="font-size: 12px">
                       {{ prio.name }}
                     </v-list-item-title>
                   </v-list-item>
@@ -64,7 +67,6 @@
               </v-menu>
               <v-btn
                 v-if="!item.editing"
-                class="mb-2 ml-4"
                 x-small
                 fab
                 @click="edit(item)"
@@ -73,7 +75,6 @@
               </v-btn>
               <v-btn
                 v-if="item.editing"
-                class="mb-2 ml-4"
                 x-small
                 fab
                 @click="renameFile(item)"
@@ -82,7 +83,6 @@
               </v-btn>
               <v-btn
                 v-if="item.editing"
-                class="mb-2 ml-2"
                 x-small
                 fab
                 @click="togleEditing(item)"
